@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-bench
+  labels:
+    app: cpu-bench
+spec:
+  containers:
+    - name: bench
+      image: docker.io/library/busybox:stable
+      # Repeatedly runs a CPU benchmark. A low CPU limit caps the number
+      # of iterations.
+      command:
+        - sh
+        - -c
+        - |
+          runde=1
+          while true; do
+            ende=$(( $(date +%s) + 10 ))
+            i=0
+            while [ $(date +%s) -lt $ende ]; do
+              i=$((i + 1))
+            done
+            echo "runde $runde: $i Iterationen in 10 s"
+            runde=$((runde + 1))
+          done
+      resources:
+        requests:
+          cpu: "50m" # Unit: Millicpus i.e. 0.05 of a core
+        limits:
+          cpu: "100m" # Upper limit, exceeding the limit causes throtteling

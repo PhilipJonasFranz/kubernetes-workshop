@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: default
+rules:
+  - apiGroups: [""] # empty string = core API
+    resources: ["pods"] # limits permissions to this specific API resource
+    verbs: ["get", "list", "watch"] # only reading access
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-writer
+  namespace: default
+rules:
+  - apiGroups: [""] # empty string = core API
+    resources: ["pods"] # limits permissions to this specific API resource
+    verbs: ["create", "update", "patch", "delete"] # only writing access

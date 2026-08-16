@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: node-reader # no namespace field as it is not namespaced
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"] # Node resource type is not namespaced, thus Role cannot be used here
+    verbs: ["get", "list", "watch"]

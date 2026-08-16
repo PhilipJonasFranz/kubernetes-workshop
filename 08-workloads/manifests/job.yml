@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job
+  namespace: default
+spec:
+  backoffLimit: 2 # Max number of allowed restarts
+  template:
+    spec:
+      containers:
+        - name: hello
+          image: docker.io/library/busybox:stable
+          command: ["sh", "-c", "echo Hello from Job; sleep 5"]
+      restartPolicy: Never # Job-Pods are recreated rather than restarted

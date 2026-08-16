@@ -1,0 +1,18 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-nextcloud
+  namespace: default
+spec:
+  instances: 3 # Replicas in cluster
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
+  storage:
+    size: 8Gi
+    # local-path instead of Longhorn: postgres replicates data itself, Longhorn would
+    # replicate the data again, resulting in 3*3 = 9 duplicates
+    storageClass: local-path
+  bootstrap:
+    # Initialize the DB with these values
+    initdb:
+      database: nextcloud
+      owner: nextcloud

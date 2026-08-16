@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-crash
+  namespace: default
+  labels:
+    app: busybox-crash
+    component: frontend
+spec:
+  containers:
+    - name: busybox-crash
+      image: docker.io/library/busybox:stable
+      command: ["sh", "-c", "echo 'starte...'; sleep 3; echo 'fehler!'; exit 1"]

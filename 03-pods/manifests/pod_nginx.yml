@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web # Name of the pod, must be unique within the namespace
+  namespace: default # Namespace where to place the pod
+  labels:
+    # Labels for selction
+    app: web
+    component: frontend
+spec:
+  containers:
+    - name: nginx # Name of the container within the pod
+      image: docker.io/library/nginx:stable # Container image and tag
+      ports:
+        - containerPort: 80 # Port of nginx, for documentation

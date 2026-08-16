@@ -1,0 +1,15 @@
+apiVersion: v1 # API-Version of the resource
+kind: Namespace # Type of the resource
+metadata:
+  name: production # Name of the resource i.e. namespace, must be unique
+  labels:
+    env: production
+    owner: myself
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+  labels:
+    env: staging
+    owner: myself

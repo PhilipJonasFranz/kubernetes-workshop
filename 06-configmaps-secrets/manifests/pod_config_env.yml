@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: default
+spec:
+  containers:
+    - name: busybox
+      image: docker.io/library/busybox:stable
+      command: ["sh", "-c", "trap 'exit 0' TERM; sleep infinity & wait"]
+      envFrom:
+        # All keys of the config map are loaded as environment variables
+        - configMapRef:
+            name: busybox-env

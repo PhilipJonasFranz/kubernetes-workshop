@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: web-rs-anti-affinity
+  namespace: default
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: web-rs-anti-affinity
+  template:
+    metadata:
+      labels:
+        app: web-rs-anti-affinity
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: web-rs-anti-affinity
+              # Node hostname is used to differentiate different placement targets
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable

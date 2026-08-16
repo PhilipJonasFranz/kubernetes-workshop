@@ -1,0 +1,32 @@
+service:
+  type: LoadBalancer
+  port: 80
+  loadBalancerIP: $LOADBALANCER_RANGE_START
+
+nextcloud:
+  trustedDomains:
+    # Required for K8s healthchecks to work
+    - nextcloud.kube.home
+    - $LOADBALANCER_RANGE_START
+
+persistence:
+  # Nextcloud files (/var/www/html)
+  enabled: true
+  size: 5Gi
+  annotations:
+    helm.sh/resource-policy: ""
+
+internalDatabase:
+  enabled: false
+
+externalDatabase:
+  enabled: true
+  type: postgresql # Supported database engines: mysql or postgresql
+  host: "pg-nextcloud-rw:5432" # address of the database: pg-nextcloud-rw is the DNS name of the service, see `kubectl get svc`. rw means read-write.
+
+  existingSecret:
+    enabled: true
+    secretName: pg-nextcloud-app # Name of the secret created by the postgres operator
+    usernameKey: user # keys in that secret that specify username, password etc.
+    passwordKey: password
+    databaseKey: dbname

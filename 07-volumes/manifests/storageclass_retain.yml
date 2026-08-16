@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path-retain # Name of the storage class
+provisioner: rancher.io/local-path # Provisioner to use to provision storage
+reclaimPolicy: Retain # What to do with volumes after deletion
+volumeBindingMode: WaitForFirstConsumer # When should storage be provisioned?
+allowVolumeExpansion: false # Can the volume be enlarged after creation?

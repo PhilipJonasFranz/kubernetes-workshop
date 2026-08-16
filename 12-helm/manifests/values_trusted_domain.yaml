@@ -1,0 +1,10 @@
+service:
+  type: LoadBalancer
+  port: 80
+  loadBalancerIP: $LOADBALANCER_RANGE_START
+
+nextcloud:
+  trustedDomains:
+  # Required for K8s healthchecks to work
+  - nextcloud.kube.home
+  - $LOADBALANCER_RANGE_START

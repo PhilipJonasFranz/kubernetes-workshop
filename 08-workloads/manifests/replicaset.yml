@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: web-rs
+  namespace: default
+spec:
+  replicas: 3 # Number of instances
+  selector:
+    # Determines which pods are part of this replica set
+    matchLabels:
+      app: web-rs
+  template: # Pod template: creates pods from this template, its 
+            # effectively a Pod-resource manifest in this manifest
+    metadata:
+      # Labels must match the selector labels above
+      labels:
+        app: web-rs
+    spec: # Spec identical to normal Pod resource manifest
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable

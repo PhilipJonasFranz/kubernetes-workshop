@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: busybox-data-longhorn
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce # Longhorn also supports ReadWriteMany
+  storageClassName: longhorn # Use longhorn-backed storage
+  resources:
+    requests:
+      storage: 1Gi

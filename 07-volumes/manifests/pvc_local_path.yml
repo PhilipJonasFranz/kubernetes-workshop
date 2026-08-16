@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: busybox-data
+  namespace: default
+spec: 
+  # Matches the existing PV. If PVC does match the PV, a new one is created
+  # with the requested properties.
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 512Mi

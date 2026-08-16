@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web-stateful
+  namespace: default
+  labels:
+    app: web-stateful
+spec:
+  serviceName: web-stateful # Identifies headless service later (service_headless.yml)
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-stateful
+  template: # Pod template like in deployment
+    metadata:
+      labels:
+        app: web-stateful
+    spec:
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    # Template to generate volumes for each pod. Same idea as pod template, but for PVCs
+    - metadata:
+        name: data
+        labels:
+          app: web-stateful # Labels of the created PVCs
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 500Mi

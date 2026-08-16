@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    # Key-value pairs we can use to select resources
+    env: production
+    owner: myself
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+  labels:
+    env: staging
+    owner: myself

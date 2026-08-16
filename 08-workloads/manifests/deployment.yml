@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: default
+  labels:
+    # Labels of the deployment resource itself
+    app: web-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-deploy
+  template: # Pod template, same as in replicaset
+    metadata:
+      labels:
+        app: web-deploy
+    spec:
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:1.27
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5 # Delays probe for rolling update
+            periodSeconds: 2

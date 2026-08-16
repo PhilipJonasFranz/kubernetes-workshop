@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-multi
+  namespace: default
+  labels:
+    app: web-multi
+spec:
+  # Init containers run sequentially before all regular containers, and must
+  # terminate sucessfully before the app containers will start
+  initContainers:
+    - name: init-content # Prepares content used by main container
+      image: docker.io/library/busybox:stable
+      # Rewrites entrypoint of image
+      command: ["sh", "-c", "echo 'Hello to stdout!' && echo '<h1>Hello from init!</h1>' > /work/index.html"]
+      volumeMounts:
+        - name: content # References shared volume at end of manifest
+          mountPath: /work # Path under which volume is mounted in container
+  containers:
+    - name: nginx # Main container, serves file overwritten by init container
+      image: docker.io/library/nginx:stable
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: content
+          mountPath: /usr/share/nginx/html
+  volumes:
+    # Empty directory volume shared by init- and main container
+    - name: content
+      emptyDir: {}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web # Name of the service; used for the DNS entry
+  namespace: default
+  labels:
+    # Labels for resource selection
+    app: web
+    component: frontend
+spec:
+  type: ClusterIP # Service type; if not specified will default to this value
+  selector: # Selector to identify pods that are part of this service (i.e. they are endpoints)
+    app: web
+  ports:
+    - port: 80 # Port at which the service is reachable
+      targetPort: 80 # Port at the pods where requests are routed to

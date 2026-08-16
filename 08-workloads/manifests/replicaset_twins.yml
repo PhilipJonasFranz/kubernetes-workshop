@@ -1,0 +1,48 @@
+# Server pods: determine placement of clients
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable
+---
+# Client Pods: dependent on placement of server pods
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector: # Label selector identifies placement targets
+                matchLabels:
+                  app: server # Pods matching this label must run on possible placement targets
+              topologyKey: kubernetes.io/hostname # Hostname must be the same for possible placement targets -> same node
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable

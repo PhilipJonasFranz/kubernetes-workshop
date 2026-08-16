@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg
+  namespace: default
+spec:
+  instances: 3 # Database replicas
+  imageName: ghcr.io/cloudnative-pg/postgresql:16-minimal-trixie # Image to use / postgres version
+  storage:
+    size: 1Gi # Storage per node
+    storageClass: local-path
+  bootstrap: # Database initialzation parameters
+    initdb:
+      database: app
+      owner: app

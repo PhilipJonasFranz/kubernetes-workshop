@@ -1,0 +1,10 @@
+# Defines the IP pool MetalLB can pull IP addresses from
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: metallb-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    # Ensure to update this to a free range in your subnet
+    - $LOADBALANCER_RANGE_START-$LOADBALANCER_RANGE_END

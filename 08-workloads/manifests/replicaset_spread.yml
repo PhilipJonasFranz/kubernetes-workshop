@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: web-rs-spread
+  labels:
+    app: web-rs-spread
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: web-rs-spread
+  template:
+    metadata:
+      labels:
+        app: web-rs-spread
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1 # How large can be difference between two nodes be at most?
+          topologyKey: topology.kubernetes.io/zone # Zone label identifies placement targets
+          whenUnsatisfiable: DoNotSchedule # Pods remain in 'Pending' state
+          labelSelector:
+            matchLabels:
+              app: web-rs-spread
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable

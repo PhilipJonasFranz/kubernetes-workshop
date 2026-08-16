@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: busybox-pv # Name of the PV, unique in cluster, volumes are not namespaced
+spec:
+  capacity:
+    storage: 512Mi # Size of the volume
+  accessModes:
+    - ReadWriteOnce # Can only be used by one pod at the same time, alternative: ReadWriteMany, not always supported
+  storageClassName: local-path # Name of the storage class the volume uses
+  hostPath:
+    path: /var/lib/rancher/k3s/storage/busybox-pv # Storage location on the K8s node, required for the local-path class

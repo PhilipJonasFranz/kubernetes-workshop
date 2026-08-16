@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: web-rs-pinned
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-rs-pinned
+  template:
+    metadata:
+      labels:
+        app: web-rs-pinned
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-ubuntu-1 # Manual choice through node hostname
+      containers:
+        - name: nginx
+          image: docker.io/library/nginx:stable
