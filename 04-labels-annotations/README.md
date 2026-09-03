@@ -149,7 +149,7 @@ kubectl get namespaces -l 'env notin (production,staging)'
 <details>
 <summary>Expected Output</summary>
 
-Beide liefern `production` und `staging` (bzw. alles außer den beiden im zweiten Fall), analog zu den Gleichheits-Selektoren oben.
+Both return `production` and `staging`, and everything except these two in the second case, analogous to the equality selectors above.
 </details>
 
 We can also select multiple resource types at the same time. This is specifically useful to show all objects that are associated with a specific app:
